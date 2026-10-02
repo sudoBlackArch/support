@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PSPULSE // Support</title>
+<meta name="description" content="Support BlackArch, PlayStation Pulse and PSPULSE PS4 Hosts.">
+<meta name="theme-color" content="#151515">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Silkscreen&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#151515;--win:#1a1a1a;--panel:#1d1d1f;--tile:#191919;
+  --line:rgba(255,255,255,.10);--line2:rgba(255,255,255,.16);
+  --text:#e8e6ef;--muted:#8d8a98;--dim:#6a6774;
+  --accent:#A294FF;--accent-soft:rgba(162,148,255,.10);--accent-line:rgba(162,148,255,.40);
+  --warn:#E8C26B;--ok:#72d39a;
+  --tri:#5fd3a6;--cir:#ff6b7a;--crs:#6fa8ff;--sqr:#f08bd0;
+  --mono:"JetBrains Mono","Cascadia Code","SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --pixel:"Silkscreen","JetBrains Mono",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg)}
+body{
+  min-height:100vh;background:var(--bg);color:var(--text);font:14px/1.6 var(--mono);
+  display:flex;justify-content:center;align-items:flex-start;padding:40px 24px;
+  background-image:radial-gradient(1000px 520px at 12% -10%,rgba(162,148,255,.07),transparent 60%);
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--accent);color:#151515}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* window */
+.win{width:100%;max-width:1320px;background:var(--win);border:1px solid var(--line2);border-radius:12px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.bar{display:flex;align-items:center;gap:12px;height:44px;padding:0 14px;border-bottom:1px solid var(--line);background:#171717}
+.dots{display:flex;gap:7px}
+.dots i{width:11px;height:11px;border-radius:50%}
+.dots i:nth-child(1){background:#ff5f57}.dots i:nth-child(2){background:#febc2e}.dots i:nth-child(3){background:#28c840}
+.tab{display:flex;align-items:center;gap:8px;padding:5px 12px;border:1px solid var(--line);border-bottom:none;border-radius:6px 6px 0 0;margin-top:9px;height:35px;background:var(--win);font-size:12px}
+.tab b{color:var(--accent);font-weight:500}
+.title{flex:1;text-align:center;color:var(--dim);font-family:var(--pixel);font-size:11px;letter-spacing:.12em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lang{display:flex;border:1px solid var(--line2);border-radius:6px;overflow:hidden}
+.lang button{font:500 12px var(--mono);background:none;border:0;color:var(--muted);padding:0 11px;height:28px;min-width:40px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--accent);color:#151515}
+
+.body{padding:24px 32px 22px}
+
+/* boot + hero */
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:26px}
+.boot{color:var(--accent);font-size:13px;margin-bottom:6px}
+.boot span{color:var(--dim)}
+.bootbar{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--dim)}
+.bcells{display:flex;gap:3px;min-width:0}
+.bcells i{flex:0 1 9px;min-width:3px;height:10px;border-radius:2px;background:var(--accent);opacity:.12;animation:fillc .18s ease-out forwards;animation-delay:calc(var(--i) * 60ms + 200ms)}
+@keyframes fillc{to{opacity:1}}
+.bpct{color:var(--muted);min-width:34px}
+.bok{color:var(--ok);opacity:0;transition:opacity .3s}.bok.show{opacity:1}
+.hey{font-size:22px;font-weight:500;line-height:1.3;margin-bottom:6px}
+.hey b{color:var(--accent);font-weight:500}
+.lead{color:var(--muted);max-width:720px}
+.lead strong{color:var(--text);font-weight:500}
+
+/* boxes */
+.box{position:relative;border:1px solid var(--line2);border-radius:8px;padding:22px 18px 16px;background:var(--panel)}
+.box > .lbl{position:absolute;top:-9px;left:14px;padding:0 8px;background:var(--win);font-family:var(--pixel);font-weight:400;font-size:11px;letter-spacing:.08em;color:var(--accent);line-height:18px}
+.box.main{border-color:var(--accent-line);padding:24px 20px 18px;margin-bottom:22px}
+
+/* support */
+.sup{display:grid;grid-template-columns:3fr 2fr;gap:24px}
+.grp{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;font:500 12px var(--mono);margin-bottom:10px}
+.grp span::before{content:"// ";color:var(--accent)}
+.grp em{font-style:normal;font-weight:400;color:var(--dim)}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tile{
+  display:flex;flex-direction:column;justify-content:space-between;gap:16px;min-height:132px;
+  padding:14px 16px;border:1px solid var(--line2);border-radius:8px;background:var(--tile);
+  transition:border-color .15s,background .15s;
+}
+.tile .ix{font-size:11px;color:var(--dim)}
+.tile .nm{font-size:18px;font-weight:700;line-height:1.2;margin-top:2px}
+.tile .sub{font-size:12px;color:var(--muted)}
+.tile .go{
+  display:flex;justify-content:space-between;align-items:center;height:34px;padding:0 12px;
+  border:1px solid var(--accent-line);border-radius:6px;color:var(--accent);font-size:12px;font-weight:500;
+  transition:background .15s,color .15s;
+}
+a.tile:hover{border-color:var(--accent);background:var(--accent-soft)}
+a.tile:hover .go{background:var(--accent);color:#151515}
+.wallets{display:flex;flex-direction:column;gap:10px}
+.wal{padding:12px 14px;border:1px solid var(--line2);border-radius:8px;background:var(--tile);display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center}
+.wal .nm{font-size:15px;font-weight:700}
+.wal .net{color:var(--accent);font-weight:500;font-size:12px;margin-left:6px}
+.wal code{grid-column:1;font:12px/1.45 var(--mono);color:var(--text);word-break:break-all}
+.btn{grid-row:1 / span 2;grid-column:2;font:500 12px var(--mono);color:#151515;background:var(--accent);border:0;border-radius:6px;height:36px;padding:0 14px;min-width:96px;cursor:pointer;transition:opacity .15s}
+.btn:hover{opacity:.88}
+.btn.ok{background:var(--ok)}
+.warn{font-size:12px;color:var(--warn);line-height:1.5;padding:8px 12px;border:1px dashed rgba(232,194,107,.4);border-radius:6px}
+
+.sup > div{display:flex;flex-direction:column}
+.sup .tiles{flex:1}
+@media (max-width:1100px){.sup .tiles{flex:none}}
+/* bottom row */
+.row3{display:grid;grid-template-columns:1.05fr 1fr 1.1fr;gap:22px;align-items:start}
+.ascii{font:12px/1.25 var(--mono);color:var(--accent);white-space:pre;user-select:none;margin-bottom:12px}
+.ascii .t{color:var(--tri)}.ascii .c{color:var(--cir)}.ascii .x{color:var(--crs)}.ascii .s{color:var(--sqr)}.ascii .p{color:var(--text)}
+.fetch{display:grid;grid-template-columns:78px 1fr;row-gap:1px;font-size:13px}
+.fetch dt{color:var(--accent)}
+.fetch dt::before{content:"├─ ";color:var(--dim)}
+.fetch dt.last::before{content:"└─ "}
+.fetch dd em{font-style:normal;color:var(--muted)}
+.on{color:var(--ok)}
+.cmd{font-size:12px;color:var(--accent);margin-bottom:10px}
+.log{list-style:none;display:flex;flex-direction:column;gap:6px}
+.log li{display:grid;grid-template-columns:50px 1fr auto;gap:8px;align-items:center;min-height:42px;padding:0 12px;border:1px solid var(--line);border-radius:6px;background:var(--tile);font-size:13px}
+.log li.hot{border-color:var(--accent-line);background:var(--accent-soft)}
+.log .k{color:var(--accent);font-size:12px}
+.log .tag{font-size:11px;color:var(--ok);white-space:nowrap}
+.out{color:var(--muted);font-size:12px;margin-top:12px}
+.out::before{content:"> ";color:var(--accent)}
+.host{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px}
+.host b{font-weight:500;font-size:13px}
+.fw{font-size:11px;color:var(--accent);border:1px solid var(--accent-line);border-radius:4px;padding:1px 6px;white-space:nowrap}
+.links{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.links + .links{margin-top:12px}
+.lk{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:40px;padding:0 12px;border:1px solid var(--line);border-radius:6px;background:var(--tile);font-size:12px;transition:border-color .15s,color .15s;min-width:0}
+.lk span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lk em{font-style:normal;color:var(--dim);white-space:nowrap}
+.lk:hover{border-color:var(--accent-line);color:var(--accent)}
+
+/* footer */
+.foot{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:22px}
+.prompt{font-size:13px;color:var(--accent)}
+.prompt span{color:var(--text)}
+.cur{display:inline-block;width:8px;height:15px;background:var(--accent);vertical-align:-2px;margin-left:4px;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.pss{display:flex;gap:10px}
+.pss svg{width:16px;height:16px;fill:none;stroke-width:2;stroke-linecap:round}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;background:var(--accent);color:#151515;font:500 13px var(--mono);padding:10px 16px;border-radius:6px;transition:opacity .2s,transform .2s;pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.bcells i,.bok{opacity:1}}
+@media (max-width:1100px){
+  .sup{grid-template-columns:1fr}
+  .row3{grid-template-columns:1fr 1fr}
+  .row3 .proj{grid-column:1 / -1}
+}
+@media (max-width:720px){
+  .tiles{grid-template-columns:1fr}
+  .tile{min-height:0;flex-direction:row;align-items:center}
+  .tile .go{min-width:104px}
+  .row3{grid-template-columns:1fr}
+}
+@media (max-width:520px){
+  body{padding:0}
+  .win{border-radius:0;border-left:0;border-right:0}
+  .body{padding:20px 16px}
+  .tab,.title,.bname{display:none}
+  .bar{justify-content:space-between}
+  .hey{font-size:19px}
+  .links{grid-template-columns:1fr}
+  .ascii{font-size:10px}
+  .wal{grid-template-columns:1fr}
+  .btn{grid-row:auto;grid-column:1;width:100%;margin-top:6px}
+  .foot{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+<main class="win">
+  <header class="bar">
+    <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div class="tab" aria-hidden="true"><b>&gt;_</b> pspulse.sh</div>
+    <div class="title" aria-hidden="true">:: : PSPULSE SUPPORT : ::</div>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="ru" aria-pressed="true">RU</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </header>
+
+  <div class="body">
+    <section class="top">
+      <div>
+        <div class="boot">PS C:\Users\BlackArch&gt; <span>./support --start</span></div>
+        <h1 class="hey" data-i18n="hey"></h1>
+        <p class="lead" data-i18n="lead"></p>
+      </div>
+      <div class="bootbar" aria-hidden="true"><span class="bname">pspulse.sh</span><span class="bcells" id="bcells"></span><span class="bpct" id="bpct">0%</span><span class="bok" id="bok">ready</span></div>
+    </section>
+
+    <!-- SUPPORT -->
+    <section class="box main" aria-labelledby="lbl-support">
+      <h2 class="lbl" id="lbl-support" data-i18n="supportLbl"></h2>
+      <div class="sup">
+        <div>
+          <h3 class="grp"><span data-i18n="gCard"></span><em data-i18n="gCardHint"></em></h3>
+          <div class="tiles">
+            <a class="tile" href="https://boosty.to/blackarch/donate" target="_blank" rel="noopener">
+              <div><div class="ix">01</div><div class="nm">Boosty</div><div class="sub" data-i18n="boostyD"></div></div>
+              <span class="go"><span data-i18n="donate"></span><span>→</span></span>
+            </a>
+            <a class="tile" href="https://dalink.to/blackarch" target="_blank" rel="noopener">
+              <div><div class="ix">02</div><div class="nm">DonationAlerts</div><div class="sub" data-i18n="daD"></div></div>
+              <span class="go"><span data-i18n="donate"></span><span>→</span></span>
+            </a>
+            <a class="tile" href="https://yoomoney.ru/to/410012891192352" target="_blank" rel="noopener">
+              <div><div class="ix">03</div><div class="nm">ЮMoney</div><div class="sub" data-i18n="ymD"></div></div>
+              <span class="go"><span data-i18n="donate"></span><span>→</span></span>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h3 class="grp"><span data-i18n="gCrypto"></span><em data-i18n="gCryptoHint"></em></h3>
+          <div class="wallets">
+            <div class="wal">
+              <div><span class="nm">USDT</span><span class="net">TRON / TRC20</span></div>
+              <code>TS5xBgQ5z9HV6eAU3KaV7idrKyPDafVaRD</code>
+              <button type="button" class="btn" data-copy="TS5xBgQ5z9HV6eAU3KaV7idrKyPDafVaRD" data-i18n="copy"></button>
+            </div>
+            <div class="wal">
+              <div><span class="nm">TON</span><span class="net">TON</span></div>
+              <code>UQCoPanEWtyGf6KXBT9aLhOM9yHt2Jn-lWEERy_Dh4ZwlE5r</code>
+              <button type="button" class="btn" data-copy="UQCoPanEWtyGf6KXBT9aLhOM9yHt2Jn-lWEERy_Dh4ZwlE5r" data-i18n="copy"></button>
+            </div>
+            <div class="warn" data-i18n="warn"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="row3">
+      <!-- WHOAMI -->
+      <section class="box" aria-label="whoami">
+        <h2 class="lbl">$ whoami</h2>
+<pre class="ascii" aria-hidden="true">   .-<span class="p">L1</span>-.                   .-<span class="p">R1</span>-.   
+  /      \_________________/      \  
+ /    _     .---------.     <span class="t">/\</span>     \ 
+|  _| |_    |  <span class="p">PULSE</span>  |  <span class="s">[]</span>    <span class="c">O</span>    |
+|  |_ _|    '---------'     <span class="x">X</span>       |
+|    |_|     (@)    (@)             |
+|          .-------------.          |
+ \       .'               '.       / 
+  '-----'                   '-----'  </pre>
+        <dl class="fetch">
+          <dt>user</dt><dd>BlackArch</dd>
+          <dt>squad</dt><dd>PlayStation Pulse</dd>
+          <dt>host</dt><dd>PSPULSE <em>// PS4</em></dd>
+          <dt>quest</dt><dd data-i18n="questLine"></dd>
+          <dt class="last">status</dt><dd><span class="on">●</span> <span data-i18n="status"></span></dd>
+        </dl>
+      </section>
+
+      <!-- WHERE TIPS GO -->
+      <section class="box" aria-labelledby="lbl-quest">
+        <h2 class="lbl" id="lbl-quest" data-i18n="questLbl"></h2>
+        <div class="cmd">$ cat donate.log</div>
+        <ul class="log">
+          <li class="hot"><span class="k">[PS5]</span><span data-i18n="l1"></span><span class="tag" data-i18n="now"></span></li>
+          <li><span class="k">[DEV]</span><span data-i18n="l2"></span><span></span></li>
+          <li><span class="k">[GG]</span><span data-i18n="l3"></span><span></span></li>
+        </ul>
+        <p class="out" data-i18n="logNote"></p>
+      </section>
+
+      <!-- PROJECTS -->
+      <section class="box proj" aria-labelledby="lbl-proj">
+        <h2 class="lbl" id="lbl-proj" data-i18n="projLbl"></h2>
+        <div class="host"><b>PSPULSE // PS4 Hosts</b><span class="fw">FW 5.05–13.52</span></div>
+        <div class="links">
+          <a class="lk" href="https://psx8.github.io/" target="_blank" rel="noopener"><span>psx8.github.io</span><em>↗</em></a>
+          <a class="lk" href="https://psx8.netlify.app/" target="_blank" rel="noopener"><span>psx8.netlify.app</span><em>↗</em></a>
+        </div>
+        <div class="links">
+          <a class="lk" href="https://t.me/PlayStation_Pulse" target="_blank" rel="noopener"><span>PlayStation Pulse</span><em data-i18n="p1"></em></a>
+          <a class="lk" href="https://t.me/PSPulse_Discuss" target="_blank" rel="noopener"><span>PSPulse Discuss</span><em data-i18n="p2"></em></a>
+          <a class="lk" href="https://t.me/blackbox_rush" target="_blank" rel="noopener"><span>BlackBox</span><em data-i18n="p3"></em></a>
+          <a class="lk" href="https://t.me/LinkRush_Bot" target="_blank" rel="noopener"><span>LinkRush</span><em data-i18n="p4"></em></a>
+        </div>
+      </section>
+    </div>
+
+    <footer class="foot">
+      <div class="prompt">PSPulse&gt; <span data-i18n="thanks"></span><i class="cur" aria-hidden="true"></i></div>
+      <div class="pss" aria-hidden="true">
+        <svg viewBox="0 0 16 16"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="var(--crs)"/></svg>
+        <svg viewBox="0 0 16 16"><rect x="3" y="3" width="10" height="10" stroke="var(--sqr)"/></svg>
+        <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.2" stroke="var(--cir)"/></svg>
+        <svg viewBox="0 0 16 16"><path d="M8 2.6l5.6 9.8H2.4z" stroke="var(--tri)" stroke-linejoin="round"/></svg>
+      </div>
+    </footer>
+  </div>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const T = {
+  ru:{
+    title:'PSPULSE // Поддержка',
+    hey:'Привет!',
+    lead:'Я <strong>BlackArch</strong> — автор <strong>PlayStation Pulse</strong> и PS4-хоста <strong>PSPULSE</strong>. Спасибо, что следишь за мной и зашёл поддержать меня.',
+    supportLbl:'[ 01 ] ПОДДЕРЖАТЬ',
+    gCard:'Карта и онлайн', gCardHint:'Boosty и DA — из любой страны',
+    gCrypto:'Крипта', gCryptoHint:'из любой страны',
+    boostyD:'донат или подписка', daD:'донат с карты', ymD:'Россия и СНГ',
+    donate:'поддержать', copy:'копировать', copied:'Адрес скопирован ✓',
+    warn:'⚠ USDT — только сеть TRC20, TON — только сеть TON. Иначе монеты потеряются.',
+    questLine:'PS5 <em>// собираю</em>',
+    status:'в сети',
+    questLbl:'[ 02 ] КУДА ИДУТ ДОНАТЫ',
+    l1:'Собираю на PlayStation 5', now:'● сейчас',
+    l2:'Развитие проектов', l3:'Благодарность автору',
+    logNote:'мотивация продолжать · чаще обновления · скоро контент для PS5',
+    projLbl:'[ 03 ] ПРОЕКТЫ',
+    p1:'канал', p2:'чат', p3:'игры', p4:'бот',
+    thanks:'спасибо, что ты с нами. GG!'
+  },
+  en:{
+    title:'PSPULSE // Support',
+    hey:'Hey!',
+    lead:'I\'m <strong>BlackArch</strong> — creator of <strong>PlayStation Pulse</strong> and the <strong>PSPULSE</strong> PS4 host. Thanks for following me and stopping by to support me.',
+    supportLbl:'[ 01 ] SUPPORT',
+    gCard:'Card & online', gCardHint:'Boosty & DA work worldwide',
+    gCrypto:'Crypto', gCryptoHint:'works worldwide',
+    boostyD:'tip or subscription', daD:'card donation', ymD:'Russia & CIS',
+    donate:'support', copy:'copy', copied:'Address copied ✓',
+    warn:'⚠ USDT on TRC20 only, TON on the TON network only. Otherwise coins will be lost.',
+    questLine:'PS5 <em>// saving up</em>',
+    status:'online',
+    questLbl:'[ 02 ] WHERE TIPS GO',
+    l1:'Saving up for a PlayStation 5', now:'● now',
+    l2:'Project development', l3:'A thank-you to the author',
+    logNote:'motivation to keep going · more updates · PS5 content soon',
+    projLbl:'[ 03 ] PROJECTS',
+    p1:'channel', p2:'chat', p3:'games', p4:'bot',
+    thanks:'thanks for being with us. GG!'
+  }
+};
+let lang='ru';
+function apply(l){
+  lang=l; const d=T[l];
+  document.documentElement.lang=l; document.title=d.title;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.dataset.i18n; if(!(k in d)||el.classList.contains('ok')) return;
+    el.innerHTML=d[k];
+  });
+  document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===l));
+}
+document.querySelectorAll('.lang button').forEach(b=>b.addEventListener('click',()=>{
+  try{localStorage.setItem('ba-lang',b.dataset.lang)}catch(e){}
+  apply(b.dataset.lang);
+}));
+
+/* copy */
+const toast=document.getElementById('toast'); let tt;
+document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',async()=>{
+  const v=b.dataset.copy;
+  try{await navigator.clipboard.writeText(v)}
+  catch(e){const ta=document.createElement('textarea');ta.value=v;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}
+  b.classList.add('ok'); b.textContent='✓';
+  toast.textContent=T[lang].copied; toast.classList.add('show');
+  clearTimeout(tt); tt=setTimeout(()=>{
+    toast.classList.remove('show');
+    document.querySelectorAll('.btn.ok').forEach(x=>{x.classList.remove('ok');x.textContent=T[lang].copy});
+  },1600);
+}));
+
+/* language: saved choice > country by IP > timezone > browser language */
+(function(){
+  const CIS=['RU','BY','KZ','KG','AM','AZ','UZ','TJ','TM','MD'];
+  let saved=null; try{saved=localStorage.getItem('ba-lang')}catch(e){}
+  if(saved&&T[saved]){apply(saved);return}
+  const tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';
+  const cisTz=/^(Europe\/(Moscow|Kaliningrad|Samara|Volgograd|Saratov|Ulyanovsk|Astrakhan|Kirov|Simferopol|Minsk|Chisinau)|Asia\/(Yekaterinburg|Omsk|Novosibirsk|Barnaul|Tomsk|Novokuznetsk|Krasnoyarsk|Irkutsk|Chita|Yakutsk|Khandyga|Vladivostok|Ust-Nera|Magadan|Sakhalin|Srednekolymsk|Kamchatka|Anadyr|Almaty|Qostanay|Aqtobe|Aqtau|Atyrau|Oral|Qyzylorda|Bishkek|Yerevan|Baku|Tashkent|Samarkand|Dushanbe|Ashgabat))$/.test(tz);
+  const ruBrowser=/^ru\b/i.test(navigator.language||'');
+  apply(cisTz||ruBrowser?'ru':'en');
+  const ctrl=new AbortController(); setTimeout(()=>ctrl.abort(),2500);
+  fetch('https://ipapi.co/country/', {signal: ctrl.signal})
+    .then(r=>r.ok?r.text():Promise.reject())
+    .then(c=>{c=(c||'').trim().toUpperCase(); if(/^[A-Z]{2}$/.test(c)) apply(CIS.includes(c)?'ru':'en')})
+    .catch(()=>{});
+})();
+
+/* decorative boot bar */
+(function(){
+  const box=document.getElementById('bcells'), pct=document.getElementById('bpct'), ok=document.getElementById('bok');
+  const N=24; for(let i=0;i<N;i++){const c=document.createElement('i');c.style.setProperty('--i',i);box.appendChild(c)}
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){pct.textContent='100%';ok.classList.add('show');return}
+  const dur=N*60+200, t0=performance.now();
+  (function tick(t){const k=Math.min(1,Math.max(0,(t-t0)/dur));pct.textContent=Math.round(k*100)+'%';
+    if(k<1)requestAnimationFrame(tick);else ok.classList.add('show')})(t0);
+})();
+</script>
+</body>
+</html>
