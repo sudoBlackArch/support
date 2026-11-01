@@ -267,7 +267,8 @@ html[lang="en"] .hero__lead{max-width:780px}  /* English copy runs longer: keep 
 .quest__track{position:relative;height:280vh}
 .quest__stage{position:sticky;top:65px;height:calc(100svh - 65px);display:grid;grid-template-columns:1.05fr 1fr;align-items:center;gap:72px}
 .quest__visual{width:fit-content;max-width:100%}
-.ps5{margin:18px 0 28px;margin-left:-.05em;font-size:clamp(150px,19vw,260px);line-height:.88;font-weight:700;letter-spacing:-.05em;user-select:none;color:transparent;
+.ps5{width:fit-content;margin:18px 0 28px;margin-left:-.05em;padding-right:.1em;  /* room for the last glyph: negative tracking + background-clip:text would cut the 5 */
+  font-size:clamp(150px,19vw,260px);line-height:.88;font-weight:700;letter-spacing:-.05em;user-select:none;color:transparent;
   background:linear-gradient(180deg,#e9e5ff,var(--accent) 75%) 0 0/var(--p,0%) 100% no-repeat,linear-gradient(#242327,#242327);-webkit-background-clip:text;background-clip:text}
 .quest .hearts .heart{width:clamp(34px,3.6vw,52px)}
 .steps{list-style:none;margin-top:32px;border-top:1px solid var(--hud-2)}
@@ -881,7 +882,7 @@ html[lang="en"] .hero__lead{max-width:780px}  /* English copy runs longer: keep 
           s.style.setProperty('--sp', clamp(p * n - i, 0, 1).toFixed(3));
         });
       } else {
-        p = reduced ? 1 : clamp((vh - visual.getBoundingClientRect().top) / (vh * .8), 0, 1);
+        p = reduced ? 1 : clamp((vh - visual.getBoundingClientRect().top) / (vh * .55), 0, 1);
         steps.forEach(s => { s.classList.add('is-active'); s.classList.remove('is-done'); s.style.setProperty('--sp', 1); });
       }
       visual.style.setProperty('--p', (p * 104).toFixed(1) + '%');
